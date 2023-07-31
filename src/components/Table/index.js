@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -131,6 +132,7 @@ export default function EnhancedTable({ filter }) {
   }, [filterArr, searchParams]);
 
   useEffect(() => {
+    setSearchParams('?page=1');
     let filterData = data.filter((e) => {
       return (
         e.title.indexOf(filter) > -1 ||
@@ -224,7 +226,9 @@ export default function EnhancedTable({ filter }) {
           padding: '0 100px',
         }}
       >
-        <Box
+        <Button
+          variant='text'
+          disabled={searchParams.get('page') * 1 === 1}
           onClick={() => {
             let currentPage = searchParams.get('page');
             setSearchParams(`?page=${currentPage * 1 - 1}`);
@@ -236,7 +240,7 @@ export default function EnhancedTable({ filter }) {
           }}
         >
           Назад
-        </Box>
+        </Button>
         <Box>
           {pageCount().map((_, index) => {
             return (
@@ -256,7 +260,9 @@ export default function EnhancedTable({ filter }) {
             );
           })}
         </Box>
-        <Box
+        <Button
+          variant='text'
+          disabled={searchParams.get('page') * 1 === pageCount().length}
           onClick={() => {
             let currentPage = searchParams.get('page');
             setSearchParams(`?page=${currentPage * 1 + 1}`);
@@ -268,7 +274,7 @@ export default function EnhancedTable({ filter }) {
           }}
         >
           Далее
-        </Box>
+        </Button>
       </Box>
     </Box>
   );
