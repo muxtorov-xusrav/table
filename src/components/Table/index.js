@@ -120,13 +120,13 @@ export default function EnhancedTable({ filter }) {
       .catch((err) => {
         console.log(err);
       });
+    setSearchParams(`?page=1`);
   }, []);
 
   useEffect(() => {
     let foo = [...filterArr];
     let currentPage = searchParams.get('page') || 1;
     let newData = foo.splice((currentPage - 1) * 10, 10);
-
     setViewData(newData);
   }, [filterArr, searchParams]);
 
@@ -225,9 +225,14 @@ export default function EnhancedTable({ filter }) {
         }}
       >
         <Box
+          onClick={() => {
+            let currentPage = searchParams.get('page');
+            setSearchParams(`?page=${currentPage * 1 - 1}`);
+          }}
           sx={{
             color: '#474955',
             fontSize: '24px',
+            cursor: 'pointer',
           }}
         >
           Назад
@@ -252,9 +257,14 @@ export default function EnhancedTable({ filter }) {
           })}
         </Box>
         <Box
+          onClick={() => {
+            let currentPage = searchParams.get('page');
+            setSearchParams(`?page=${currentPage * 1 + 1}`);
+          }}
           sx={{
             color: '#474955',
             fontSize: '24px',
+            cursor: 'pointer',
           }}
         >
           Далее
